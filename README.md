@@ -18,6 +18,7 @@ http://localhost/task1.php?file_to_open=http://biomechanics.ru/listof.php
 Для атаки нужно знать имя переменной file_to_open
 
 
+
 Task 2
 Участвующие файлы:
 
